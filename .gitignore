@@ -1,0 +1,10 @@
+__pycache__
+output*
+*.pdf
+*.bz2
+env*
+plot*
+synt*
+*.p
+.idea*
+.ipynb_checkpoints*

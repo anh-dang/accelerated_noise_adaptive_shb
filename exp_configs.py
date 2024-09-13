@@ -9,6 +9,7 @@ from experiments_config.syn_check_alpha_beta import *
 from experiments_config.syn_non_interp_exp import *
 from experiments_config.syn_non_interp_compare import *
 from experiments_config.syn_interp_pan import *
+from experiments_config.line_search_exp import *
 
 
 def get_benchmark(benchmark,
@@ -173,7 +174,7 @@ def get_exp_group(opt_list, benchmarks_list = ["mushrooms", "ijcnn", "rcv1", "sy
                   max_epoch=1000, n_samples=[10000], d=[20],
                   runs=[0,1,2], batch_size=[1, 100, -1], 
                   losses=["logistic_loss", "squared_loss", "squared_hinge_loss"], 
-                  kappa=[100], variance=[0], is_kernelize=0, regularization_factor=0.01):
+                  kappa=[100], variance=[0], is_kernelize=0, regularization_factor=0):
     exp_groups = {}
     for benchmark in benchmarks_list:
         exp_groups['exp_%s' % benchmark] = hu.cartesian_exp_group(get_benchmark(benchmark, opt_list,
@@ -189,4 +190,4 @@ def get_exp_group(opt_list, benchmarks_list = ["mushrooms", "ijcnn", "rcv1", "sy
                                                                              regularization_factor=regularization_factor))
     return exp_groups
 
-EXP_GROUPS = get_exp_group(**EXP_SYN_NON_INTERP_CONFIGS)
+EXP_GROUPS = get_exp_group(**EXP_LINE_SEARCH_CONFIGS)

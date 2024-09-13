@@ -5,7 +5,7 @@ from datasets import *
 from objectives import *
 import time
 
-from optimizers.sls import SLS as SLS
+from optimizers.sls import SLS, LOG_SLS
 
 
 
@@ -109,11 +109,16 @@ def Exp_SGD(score_list, closure, D, labels,  batch_size=1,max_epoch=100, gamma=N
             x -= lr * gk
             num_grad_evals = num_grad_evals + batch_size
 
-            if is_sls:
+            if is_sls=='sls':
                 gamma,fv=SLS(x+lr*gk,gk,Di,labels_i,gamma,closure)
                 num_func_evals+=fv
                 # num_grad_evals = num_grad_evals + batch_size
                 # lr=lr*alpha**(t+1)
+            elif is_sls=='log_sls':
+                gamma,fv=LOG_SLS(x+lr*gk,gk,Di,labels_i,gamma,closure)
+                num_func_evals+=fv
+            elif is_sls=='polyak':
+                gamma = min(loss/(0.5 * (np.linalg.norm(gk))**2 + 1e-12), 1e3)
 
             if (num_grad_evals) % log_idx == 0 or (num_grad_evals) % n== 0:
                 t_end = time.time()
